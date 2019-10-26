@@ -1,0 +1,44 @@
+version: "2"
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx-custom.docker
+    ports:
+      - "80:80"
+    links:
+      - php-fpm
+
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/php-fpm-custom.docker
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+    links:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql
+#    позволяет подлкючиться через свой mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=1111"
+      - "MYSQL_USER=user_1"
+      - "MYSQL_PASSWORD=1111"
+      - "MYSQL_DATABASE=project_db"
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
