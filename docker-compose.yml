@@ -26,6 +26,39 @@ services:
       - mysql
       - redis
 
+
+  php-cli:
+    build:
+      context: ./
+      dockerfile: docker/php-cli-custom.docker
+    volumes:
+      - ./:/var/www
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=mysql"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+    links:
+      - mysql
+      - redis
+    tty: true
+
+  node:
+    build:
+      context: ./
+      dockerfile: docker/node-custom.docker
+    volumes:
+      - ./:/var/www
+#    environment:
+#      - "DB_PORT=3306"
+#      - "DB_HOST=mysql"
+#      - "REDIS_PORT=6379"
+#      - "REDIS_HOST=redis"
+#    links:
+#      - mysql
+#      - redis
+    tty: true
+
   mysql:
     image: mysql
 #    позволяет подлкючиться через свой mysql
