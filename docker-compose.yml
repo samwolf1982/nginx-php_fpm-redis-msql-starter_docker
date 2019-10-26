@@ -6,6 +6,8 @@ services:
       dockerfile: docker/nginx-custom.docker
     ports:
       - "80:80"
+    volumes:
+      - ./:/var/www
     links:
       - php-fpm
 
