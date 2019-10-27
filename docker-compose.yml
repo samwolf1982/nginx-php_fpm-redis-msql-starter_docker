@@ -1,4 +1,4 @@
-version: "2"
+version: "3.7"
 services:
   nginx:
     build:
@@ -6,8 +6,17 @@ services:
       dockerfile: docker/nginx-custom.docker
     ports:
       - "80:80"
+#    volumes:
+#      - app_volume:/var/www
     volumes:
-      - app_volume:/var/www
+      - type: bind
+        source: ./
+        target: /var/www
+#          device: ./
+
+#      - type: bind
+#        source: ./
+#        target: /var/www
     links:
       - php-fpm
 
@@ -16,7 +25,9 @@ services:
       context: ./
       dockerfile: docker/php-fpm-custom.docker
     volumes:
-      - app_volume:/var/www
+      - type: bind
+        source: ./
+        target: /var/www
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
@@ -32,7 +43,9 @@ services:
       context: ./
       dockerfile: docker/php-cli-custom.docker
     volumes:
-      - app_volume:/var/www
+      - type: bind
+        source: ./
+        target: /var/www
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
@@ -48,7 +61,9 @@ services:
       context: ./
       dockerfile: docker/node-custom.docker
     volumes:
-      - app_volume:/var/www
+      - type: bind
+        source: ./
+        target: /var/www
 #    environment:
 #      - "DB_PORT=3306"
 #      - "DB_HOST=mysql"
@@ -79,9 +94,24 @@ services:
     ports:
       - "6379:6379"
 
-volumes:
-  app_volume:
-    driver_opts:
-      type: none
-      device: ./
-      o: bind
+#volumes:
+#  app_volume:
+#    driver: local
+#    driver_opts:
+#      type: none
+##      o: "addr=10.40.0.199,nolock,soft,rw"
+#      device: ./
+#      o: bind
+#  app_volume:
+#    driver: local   >docker volume create --driver local --opt device=:./ --opt type=volume   app_volume
+#    driver_opts:
+#      type: none
+#      device: ./
+#      o: bind
+#  dbdata:
+#volumes:
+#  app_volume:
+#    driver_opts:
+#      type: none
+#      device: ./
+#      o: bind
