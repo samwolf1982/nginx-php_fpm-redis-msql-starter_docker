@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./:/var/www
+      - app_volume:/var/www
     links:
       - php-fpm
 
@@ -16,7 +16,7 @@ services:
       context: ./
       dockerfile: docker/php-fpm-custom.docker
     volumes:
-      - ./:/var/www
+      - app_volume:/var/www
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
@@ -32,7 +32,7 @@ services:
       context: ./
       dockerfile: docker/php-cli-custom.docker
     volumes:
-      - ./:/var/www
+      - app_volume:/var/www
     environment:
       - "DB_PORT=3306"
       - "DB_HOST=mysql"
@@ -48,7 +48,7 @@ services:
       context: ./
       dockerfile: docker/node-custom.docker
     volumes:
-      - ./:/var/www
+      - app_volume:/var/www
 #    environment:
 #      - "DB_PORT=3306"
 #      - "DB_HOST=mysql"
@@ -78,3 +78,10 @@ services:
     image: redis
     ports:
       - "6379:6379"
+
+volumes:
+  app_volume:
+    driver_opts:
+      type: none
+      device: ./
+      o: bind
