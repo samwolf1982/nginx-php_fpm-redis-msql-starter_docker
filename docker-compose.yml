@@ -65,6 +65,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./storage/docker/mysql:/var/lib/mysql
+      - ./storage/seeds/msql:/docker-entrypoint-initdb.d
     environment:
       - "MYSQL_ROOT_PASSWORD=1111"
       - "MYSQL_USER=user_1"
