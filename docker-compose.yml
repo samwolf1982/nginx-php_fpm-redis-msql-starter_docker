@@ -10,7 +10,7 @@ services:
 #      - app_volume:/var/www
     volumes:
       - type: bind
-        source: ./
+        source: ./public
         target: /var/www
 #          device: ./
 
@@ -26,7 +26,7 @@ services:
       dockerfile: docker/php-fpm-custom.docker
     volumes:
       - type: bind
-        source: ./
+        source: ./public
         target: /var/www
     environment:
       - "DB_PORT=${MYSQL_DB_PORT}"
@@ -44,7 +44,7 @@ services:
       dockerfile: docker/php-cli-custom.docker
     volumes:
       - type: bind
-        source: ./
+        source: ./public
         target: /var/www
     environment:
       - "DB_PORT=${MYSQL_DB_PORT}"
@@ -62,7 +62,7 @@ services:
       dockerfile: docker/node-custom.docker
     volumes:
       - type: bind
-        source: ./
+        source: ./public
         target: /var/www
 #    environment:
 #      - "DB_PORT=${MYSQL_DB_PORT}"
