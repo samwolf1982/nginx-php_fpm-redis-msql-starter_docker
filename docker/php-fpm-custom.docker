@@ -31,6 +31,8 @@ RUN mv ioncube/ioncube_loader_lin_7.1.so $(php -r "echo ini_get('extension_dir')
 RUN echo "zend_extension = '$(php -r "echo ini_get('extension_dir');")/ioncube_loader_lin_7.1.so'" > $PHP_INI_DIR/conf.d/00-ioncube.ini
 
 
+RUN apt-get install -y npm
+RUN npm install -g yarn
 
 
 WORKDIR /var/www
