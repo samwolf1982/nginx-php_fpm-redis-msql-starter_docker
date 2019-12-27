@@ -9,6 +9,8 @@ docker-build:
 
 docker-cli:
 	docker exec -it app_demo_php-cli_1 /bin/bash
+docker-cli-redis:
+	docker exec -it app_demo_redis_1 /bin/bash
 
 test:
 	docker exec app_demo_php-cli_1 app/vendor/bin/phpunit  --colors=always
