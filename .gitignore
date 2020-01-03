@@ -2,5 +2,7 @@ storage/docker/mysql/*
 !storage/docker/mysql/.gitkeep
 storage/docker/redis/*
 !storage/docker/redis/.gitkeep
+storage/docker/*
+!storage/docker/.gitkeep
 
 app/*
