@@ -19,6 +19,7 @@ services:
 #        target: /var/www
     links:
       - php-fpm
+      - mailhog
 
   php-fpm:
     build:
@@ -36,6 +37,7 @@ services:
     links:
       - mysql
       - redis
+      - mailhog
 
 
   php-cli:
@@ -54,6 +56,7 @@ services:
     links:
       - mysql
       - redis
+      - mailhog
     tty: true
 
   node:
@@ -105,6 +108,14 @@ services:
       - "MYSQL_USER=${MYSQL_USER}"
       - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
       - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+
+
+#  url http://localhost:8025
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "${MAIL_HOG_SMTP_PORT}:1025"
+      - "${MAIL_HOG_HTTP_PORT}:8025"
 
 #volumes:
 #  app_volume:

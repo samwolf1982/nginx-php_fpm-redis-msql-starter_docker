@@ -8,24 +8,27 @@ docker-build:
 	docker-compose up --build -d
 
 docker-cli:
-	docker exec -it app_demo_php-cli_1 /bin/bash
+	docker-compose exec php-cli /bin/bash
+docker-cli-f:
+	docker-compose exec  php-fpm /bin/bash
+
 docker-cli-redis:
-	docker exec -it app_demo_redis_1 /bin/bash
+	docker-compose exec redis /bin/bash
 
 test:
-	docker exec app_demo_php-cli_1 app/vendor/bin/phpunit  --colors=always
+	docker-compose exec php-cli vendor/bin/phpunit  --colors=always
 
 migrate:
-	docker exec app_demo_php-cli_1 app/yii migrate
+	docker-compose exec php-cli app/yii migrate
 
 assets-install:
-	docker exec app_demo_node_1 yarn install
+	docker-compose exec node yarn install
 
 assets-dev:
-	docker exec app_demo_node_1 yarn run dev
+	docker-compose exec node yarn run dev
 
 assets-watch:
-	docker exec app_demo_node_1 yarn run watch
+	docker-compose exec node yarn run watch
 
 perm:
 	sudo chown ${USER}:${USER} bootstrap/cache -R

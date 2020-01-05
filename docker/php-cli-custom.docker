@@ -2,16 +2,12 @@ FROM php:7.2-cli
 
 
 RUN apt-get update
-RUN apt-get install -y libmcrypt-dev
-RUN apt-get install -y default-mysql-client
-RUN apt-get install -y libpq-dev
+RUN apt-get install -y libmcrypt-dev default-mysql-client libpq-dev mcrypt
 
-RUN apt-get install -y mcrypt
 RUN docker-php-ext-install pdo_mysql
 
 RUN apt-get update --fix-missing
-RUN apt-get install -y curl
-RUN apt-get install -y git zip
+RUN apt-get install -y curl git zip wget
 RUN apt-get install -y build-essential libssl-dev zlib1g-dev libpng-dev libjpeg-dev libfreetype6-dev
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -35,6 +31,14 @@ RUN echo "zend_extension = '$(php -r "echo ini_get('extension_dir');")/ioncube_l
 
 RUN apt-get install -y npm
 RUN npm install -g yarn
+
+##MailHog
+RUN wget https://github.com/mailhog/mhsendmail/releases/download/v0.2.0/mhsendmail_linux_amd64
+RUN chmod +x mhsendmail_linux_amd64
+RUN mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
+RUN echo "[mail function]" > $PHP_INI_DIR/conf.d/mailhog.ini
+RUN echo "sendmail_path = '/usr/local/bin/mhsendmail --smtp-addr=\"mailhog:1025\"'" >> $PHP_INI_DIR/conf.d/mailhog.ini
+
 
 
 WORKDIR /var/www
