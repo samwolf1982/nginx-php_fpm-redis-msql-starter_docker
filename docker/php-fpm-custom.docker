@@ -38,6 +38,8 @@ RUN mv mhsendmail_linux_amd64 /usr/local/bin/mhsendmail
 RUN echo "[mail function]" > $PHP_INI_DIR/conf.d/mailhog.ini
 RUN echo "sendmail_path = '/usr/local/bin/mhsendmail --smtp-addr=\"mailhog:1025\"'" >> $PHP_INI_DIR/conf.d/mailhog.ini
 
+RUN echo "post_max_size=250M" >> $PHP_INI_DIR/conf.d/memory-limit.ini
+RUN echo "upload_max_filesize=250M" >> $PHP_INI_DIR/conf.d/memory-limit.ini
 
 WORKDIR /var/www
 
