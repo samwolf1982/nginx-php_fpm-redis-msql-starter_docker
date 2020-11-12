@@ -12,3 +12,5 @@ docker-compose down
 добавить
 RUN pecl install mcrypt
 RUN docker-php-ext-enable mcrypt
+###    тунелировани
+https://localtunnel.github.io/ww
