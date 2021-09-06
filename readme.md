@@ -1,12 +1,12 @@
 #Заготовка для php проектов в докере    
-
+http://localhost/
 ## docker env 
 https://docs.docker.com/compose/env-file/   
 
 
 ### запуск стоп
-docker-compose up --build
-docker-compose down
+make dev
+make down-dev
 
 ### для php 7.2 
 добавить

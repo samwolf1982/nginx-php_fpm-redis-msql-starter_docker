@@ -1,3 +1,21 @@
+dev:
+	docker-compose  -f docker-compose-dev.yml up --build --remove-orphans
+dev-force:
+	docker-compose  -f docker-compose-dev.yml up --build --force-recreate --remove-orphans
+cli-dev:
+	docker-compose  -f docker-compose-dev.yml exec apach /bin/bash
+down-dev:
+	docker-compose -f docker-compose-dev.yml down
+
+cli-msql:
+	docker-compose  -f docker-compose-dev.yml exec mysql /bin/bash
+
+
+
+
+
+
+### RM later
 docker-up:
 	docker-compose up -d
 

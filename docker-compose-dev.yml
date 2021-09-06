@@ -1,0 +1,140 @@
+version: "3.7"
+services:
+  nginx:
+    build:
+      context: ./
+      dockerfile: docker/nginx-custom.docker
+    ports:
+      - "80:80"
+#    volumes:
+#      - app_volume:/var/www
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www
+#          device: ./
+
+#      - type: bind
+#        source: ./
+#        target: /var/www
+    links:
+      - php-fpm
+      - mailhog
+
+  php-fpm:
+    build:
+      context: ./
+      dockerfile: docker/php-fpm-custom.docker
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www
+    environment:
+      - "DB_PORT=${MYSQL_DB_PORT}"
+      - "DB_HOST=${MYSQL_DB_HOST}"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+    links:
+      - mysql
+      - redis
+      - mailhog
+
+
+  php-cli:
+    build:
+      context: ./
+      dockerfile: docker/php-cli-custom.docker
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www
+    environment:
+      - "DB_PORT=${MYSQL_DB_PORT}"
+      - "DB_HOST=${MYSQL_DB_HOST}"
+      - "REDIS_PORT=6379"
+      - "REDIS_HOST=redis"
+    links:
+      - mysql
+      - redis
+      - mailhog
+    tty: true
+
+  node:
+    build:
+      context: ./
+      dockerfile: docker/node-custom.docker
+    volumes:
+      - type: bind
+        source: ./public
+        target: /var/www
+#    environment:
+#      - "DB_PORT=${MYSQL_DB_PORT}"
+#      - "DB_HOST=mysql"
+#      - "REDIS_PORT=6379"
+#      - "REDIS_HOST=redis"
+#    links:
+#      - mysql
+#      - redis
+    tty: true
+
+  mysql:
+    image: mysql
+#    позволяет подлкючиться через свой mysql
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+      - ./storage/seeds/msql:/docker-entrypoint-initdb.d
+    environment:
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "MYSQL_DATABASE=${MYSQL_DATABASE}"
+    ports:
+      - "${MYSQL_DB_PORT}:3306"
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./storage/docker/redis:/data
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:db
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+    environment:
+      - "MYSQL_USER=${MYSQL_USER}"
+      - "MYSQL_PASSWORD=${MYSQL_PASSWORD}"
+      - "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}"
+
+
+#  url http://localhost:8025
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "${MAIL_HOG_SMTP_PORT}:1025"
+      - "${MAIL_HOG_HTTP_PORT}:8025"
+
+#volumes:
+#  app_volume:
+#    driver: local
+#    driver_opts:
+#      type: none
+##      o: "addr=10.40.0.199,nolock,soft,rw"
+#      device: ./
+#      o: bind
+#  app_volume:
+#    driver: local   >docker volume create --driver local --opt device=:./ --opt type=volume   app_volume
+#    driver_opts:
+#      type: none
+#      device: ./
+#      o: bind
+#  dbdata:
+#volumes:
+#  app_volume:
+#    driver_opts:
+#      type: none
+#      device: ./
+#      o: bind
