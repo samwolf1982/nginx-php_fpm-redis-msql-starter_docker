@@ -7,6 +7,12 @@ https://docs.docker.com/compose/env-file/
 ### запуск стоп
 make up  /  make down
 
+### install laravel
+make cli
+REMOVE public FOLDER    rm -rf public
+composer create-project laravel/laravel .
+chmod  -R 777 storage/
+
 
 ### для php 7.2 
 добавить
