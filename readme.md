@@ -14,6 +14,11 @@ composer create-project laravel/laravel .
 chmod  -R 777 storage/
 
 
+### in terminal
+sudo chown sam *   ///    whoami
+or
+sudo chown "$USER" *
+
 ### для php 7.2 
 добавить
 RUN pecl install mcrypt
