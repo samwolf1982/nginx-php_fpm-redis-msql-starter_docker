@@ -6,6 +6,8 @@ cli-dev:
 	docker-compose  -f docker-compose-dev.yml exec apach /bin/bash
 cli:
 	docker-compose  -f docker-compose-dev.yml exec php-cli /bin/bash
+cli-node:
+	docker-compose  -f docker-compose-dev.yml exec node /bin/sh
 down:
 	docker-compose -f docker-compose-dev.yml down
 
