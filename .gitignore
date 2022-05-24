@@ -6,3 +6,4 @@ storage/docker/*
 !storage/docker/.gitkeep
 
 app/*
+public/*

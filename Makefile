@@ -1,9 +1,11 @@
-dev:
+up:
 	docker-compose  -f docker-compose-dev.yml up --build --remove-orphans
 dev-force:
 	docker-compose  -f docker-compose-dev.yml up --build --force-recreate --remove-orphans
 cli-dev:
 	docker-compose  -f docker-compose-dev.yml exec apach /bin/bash
+cli:
+	docker-compose  -f docker-compose-dev.yml exec php-cli /bin/bash
 down-dev:
 	docker-compose -f docker-compose-dev.yml down
 
