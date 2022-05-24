@@ -5,7 +5,7 @@ https://docs.docker.com/compose/env-file/
 
 
 ### запуск стоп
-make dev
+make up
 make down-dev
 
 ### для php 7.2 
