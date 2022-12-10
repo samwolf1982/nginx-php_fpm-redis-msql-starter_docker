@@ -80,7 +80,8 @@ services:
   mysql:
     image: mysql
 #    позволяет подлкючиться через свой mysql
-    command: --default-authentication-plugin=mysql_native_password
+#    in the terminal- if ERROR 137 or 2013    SET GLOBAL connect_timeout = 10;
+#    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ./storage/docker/mysql:/var/lib/mysql
       - ./storage/seeds/msql:/docker-entrypoint-initdb.d
