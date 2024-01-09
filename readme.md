@@ -1,10 +1,10 @@
-#Заготовка для php проектов в докере    
+#Заготовка для web додатків на базі php node   
 http://localhost/
 ## docker env 
 https://docs.docker.com/compose/env-file/   
 
 
-### запуск стоп
+### запуск, зупинка проєкта
 make up  /  make down
 
 ### install laravel
@@ -20,8 +20,8 @@ or
 sudo chown "$USER" *
 
 ### для php 7.2 
-добавить
+добавити
 RUN pecl install mcrypt
 RUN docker-php-ext-enable mcrypt
-###    тунелировани
+###    тунель
 https://localtunnel.github.io/ww
