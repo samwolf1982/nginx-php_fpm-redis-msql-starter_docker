@@ -78,7 +78,7 @@ services:
     tty: true
 
   mysql:
-    image: mysql
+    image: mysql:8.0.35
 #    позволяет подлкючиться через свой mysql
     command: --default-authentication-plugin=mysql_native_password
     volumes:
