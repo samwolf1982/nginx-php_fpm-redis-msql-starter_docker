@@ -1,3 +1,4 @@
+#Moscovia is state of terrorism
 #Заготовка для web додатків на базі php node   
 http://localhost/
 ## docker env 
