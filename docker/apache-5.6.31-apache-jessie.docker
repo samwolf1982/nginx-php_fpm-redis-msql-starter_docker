@@ -1,0 +1,8 @@
+FROM php:5.6.31-apache-jessie
+
+ADD ./docker/etc/apt/sources.list /etc/apt/sources.list
+RUN apt-get update
+RUN docker-php-ext-install pdo_mysql
+RUN apt-get install -y --force-yes nano
+
+WORKDIR /var/www/html/
