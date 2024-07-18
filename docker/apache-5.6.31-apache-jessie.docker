@@ -1,8 +1,31 @@
-FROM php:5.6.31-apache-jessie
+FROM php:5.6-apache
 
 ADD ./docker/etc/apt/sources.list /etc/apt/sources.list
+ADD ./docker/php-ini/php.ini /usr/local/etc/php/conf.d/php.override.ini
+# Install modules
 RUN apt-get update
-RUN docker-php-ext-install pdo_mysql
-RUN apt-get install -y --force-yes nano
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer \
+        | php -- --install-dir=/usr/local/bin \
+        && mv /usr/local/bin/composer.phar /usr/local/bin/composer
+
+# Configure apache
+RUN sed -i "s/DocumentRoot .*/DocumentRoot \/var\/www\/html\/public/" /etc/apache2/apache2.conf
+RUN echo "error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT" >> /usr/local/etc/php/conf.d/error.ini
+RUN echo "log_errors = On" >> /usr/local/etc/php/conf.d/error.ini
+RUN a2enmod rewrite
+
+# Install node
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.39.7/install.sh | bash
+RUN . ~/.nvm/nvm.sh && nvm install 14 \
+    && ln -s /bin/versions/node/v14.21.3/bin/node /usr/bin/node \
+    && ln -s /bin/versions/node/v14.21.3/bin/npm /usr/bin/npm
+
+# Install libpng
+
+
+# Install gulp & bower
+RUN npm install --global gulp; npm install --global bower
 
 WORKDIR /var/www/html/
